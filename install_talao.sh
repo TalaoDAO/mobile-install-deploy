@@ -58,7 +58,9 @@ echo "Cloning DIDKit repo if not yet on previous directory"
 
 echo "Cloning SSI repo if not yet on previous directory"
 [ ! -d "ssi" ] && git clone https://github.com/spruceid/ssi.git --recurse-submodules
-
+cd ssi
+git checkout 15e944620e20b31b4644edad094e01ff7b418e44
+cd -
 echo "update didkit makefile to use flutter with fvm"
 cp ../Makefile didkit/lib/
 
@@ -95,7 +97,7 @@ cd didkit
 if [[ "$*" == *-android* ]]; then
   echo "Build didkit for Android"
   cd lib/flutter
-  fvm use 2.5.2
+  fvm use 2.5.3
   fvm flutter pub get
   cd -
   make -C lib install-rustup-android
@@ -113,7 +115,7 @@ fi
 cargo build
 cd  ../credible
 echo "moving to credible and building apk"
-fvm use 2.5.2
+fvm use 2.5.3
 if [[ "$*" == *-ios* ]]; then
   echo "update cocoapod"
   rm ios/Podfile.lock
