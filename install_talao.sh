@@ -36,7 +36,7 @@ if ! command -v rustup &>/dev/null; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 fi
-rustup default stable
+rustup default nightly
 
 if [[ "$*" == *-android* ]]; then
   echo "Checking for java installation."
@@ -51,18 +51,22 @@ if [[ "$*" == *-android* ]]; then
 fi
 
 echo "Cloning talao credible repo if not yet on previous directory"
-[ ! -d "credible" ] && git clone git@github.com:TalaoDAO/credible.git
+[ ! -d "credible" ] && git clone git@github.com:TalaoDAO/talao-wallet.git
 
 echo "Cloning DIDKit repo if not yet on previous directory"
 [ ! -d "didkit" ] && git clone https://github.com/spruceid/didkit.git
+cd didkit
+git checkout c5c422f2469c2c5cc2f6e6d8746e95b552fce3ed
+cd ..
 
 echo "Cloning SSI repo if not yet on previous directory"
 [ ! -d "ssi" ] && git clone https://github.com/spruceid/ssi.git --recurse-submodules
 cd ssi
 git checkout 15e944620e20b31b4644edad094e01ff7b418e44
 cd -
+
 echo "update didkit makefile to use flutter with fvm"
-cp ../Makefile didkit/lib/
+cp ../key.properties credible/android/
 
 if [[ "$*" == *-android* ]]; then
   echo "Checking for android sdk."
@@ -97,7 +101,7 @@ cd didkit
 if [[ "$*" == *-android* ]]; then
   echo "Build didkit for Android"
   cd lib/flutter
-  fvm use 2.5.3
+  fvm use 2.8.1
   fvm flutter pub get
   cd -
   make -C lib install-rustup-android
@@ -115,7 +119,7 @@ fi
 cargo build
 cd  ../credible
 echo "moving to credible and building apk"
-fvm use 2.5.3
+fvm use 2.8.1
 if [[ "$*" == *-ios* ]]; then
   echo "update cocoapod"
   rm ios/Podfile.lock
