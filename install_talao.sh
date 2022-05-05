@@ -55,15 +55,9 @@ echo "Cloning talao credible repo if not yet on previous directory"
 
 echo "Cloning DIDKit repo if not yet on previous directory"
 [ ! -d "didkit" ] && git clone https://github.com/spruceid/didkit.git
-cd didkit
-git checkout c5c422f2469c2c5cc2f6e6d8746e95b552fce3ed
-cd ..
 
 echo "Cloning SSI repo if not yet on previous directory"
 [ ! -d "ssi" ] && git clone https://github.com/spruceid/ssi.git --recurse-submodules
-cd ssi
-git checkout 15e944620e20b31b4644edad094e01ff7b418e44
-cd -
 
 echo "update didkit makefile to use flutter with fvm"
 cp ../key.properties credible/android/
