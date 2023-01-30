@@ -100,7 +100,7 @@ fi
 
 cargo build
 cd  ../altme
-echo "moving to talao-wallet and building apk"
+echo "moving to altme and building apk"
 fvm use 3.7.0
 if [[ "$*" == *-ios* ]]; then
   echo "update cocoapod"
