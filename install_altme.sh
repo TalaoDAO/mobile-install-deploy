@@ -59,9 +59,6 @@ echo "Cloning DIDKit repo if not yet on previous directory"
 echo "Cloning SSI repo if not yet on previous directory"
 [ ! -d "ssi" ] && git clone https://github.com/spruceid/ssi.git --recurse-submodules
 
-echo "Cloning polygonid-flutter-sdk repo if not yet on previous directory"
-[ ! -d "polygonid-flutter-sdk" ] && git clone https://github.com/iden3/polygonid-flutter-sdk.git
-
 echo "update didkit makefile to use flutter with fvm"
 cp ../key.properties altme/android/
 
@@ -100,31 +97,6 @@ if [[ "$*" == *-ios* ]]; then
   make -C lib install-rustup-ios
   make -C lib ../target/test/ios.stamp
 fi
-
-cd ../polygonid-flutter-sdk
-
-echo "creating .env file in polygonid-flutter-sdk"
-echo "NETWORK_NAME=polygon
-NETWORK_ENV=mumbai
-INFURA_URL=https://polygon-mumbai.infura.io/v3/
-INFURA_RDP_URL=wss://polygon-mumbai.infura.io/v3/
-INFURA_API_KEY=secret
-ID_STATE_CONTRACT_ADDR=sc_address
-PUSH_URL=push_url" > .env
-
-echo "creating .env.dev file in polygonid-flutter-sdk"
-echo "NETWORK_NAME=polygon
-NETWORK_ENV=mumbai
-INFURA_URL=https://polygon-mumbai.infura.io/v3/
-INFURA_RDP_URL=wss://polygon-mumbai.infura.io/v3/
-INFURA_API_KEY=secret
-ID_STATE_CONTRACT_ADDR=sc_address
-PUSH_URL=push_url" > .env.dev
-
-echo "running build_runner to generate .g.dart files"
-fvm use 3.7.0
-fvm flutter pub get
-fvm flutter pub run build_runner build --delete-conflicting-outputs
 
 echo "cargo build"
 cargo build
